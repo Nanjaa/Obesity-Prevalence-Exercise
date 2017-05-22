@@ -7,13 +7,17 @@
   height: 80px;
 }
 
-.App-header {
+.App-header, .App-footer {
   background-color: #222;
   padding: 20px;
   color: white;
 }
-.App-header a {
+.App-header a, .App-footer a {
   color: yellow;
+}
+
+.inline {
+  display: inline-block;
 }
 
 @keyframes App-logo-spin {

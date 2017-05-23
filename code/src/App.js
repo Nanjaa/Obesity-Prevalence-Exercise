@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Chart from './Chart.js';
 
 class App extends Component {
   render() {
@@ -11,7 +12,7 @@ class App extends Component {
         </div>
 
         <div className="content">
-          <p>Graphs Here!</p>
+          <Chart/>
         </div>
 
         <div className="App-footer">
@@ -19,8 +20,6 @@ class App extends Component {
           <p className="inline">
             605.228.3072 | <a className="inline" href="mailto:Stephanie.r.olfert@gmail.com">Stephanie.R.Olfert@gmail.com</a> | <a className="inline" href="https://github.com/Nanjaa">Stephanie's Github</a>
           </p>
-          
-          
         </div>
       </div>
     );

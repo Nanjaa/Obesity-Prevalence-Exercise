@@ -1,5 +1,6 @@
 import React from 'react';
 import d3 from 'd3';
+import test from './data.CSV'
 
 class Chart extends React.Component {
 
@@ -10,9 +11,8 @@ class Chart extends React.Component {
             width: 800,
             height: 500,
             padding: 30,
-            data: [[1,2],[3,4],[5,6],[7,8],[9,10]],
-            xScale: undefined,
-            yScale: undefined
+            data: [],
+            year: ''
         };
     }
 
@@ -91,21 +91,43 @@ class Chart extends React.Component {
         
     }
 
+    pullInfo() {
+        var d3 = require('d3'),
+            j = 0;
+        d3.csv(test, function(data) {
+            for(var i=0; i<data.length; i++) {
+                if(data[i].year === '1990' && data[i].location === 'USA') {
+                    j = j+1;
+                    var currState = this.state.data;
+                    
+                    currState.push([j, data[i].mean*100]);
+                }
+            }
+
+            this.setState({
+                year: '1990'
+            })
+            this.renderAxis();
+        }.bind(this))
+
+        console.log(this.state.data);
+    }
+
     componentDidMount() {
-        this.renderAxis();
+        this.pullInfo();
     }
 
     render(props) {
         return (
             <div>
-                <h1>Chart Below:</h1>
+                <h1>Prevalence as Percent in the USA by Year</h1>
+                <h2>-{this.state.year}-</h2>
                 <svg width={this.state.width} height={this.state.height + 50}>
                     <g>
                         {this.state.data.map(this.renderCircles())}
                     </g>
 
                     <g className="axis" ref="xAxis" transform={this.translateAxis('x')}></g>
-                    <text className="xAxis" textAnchor="left" x={this.state.width / 2} y={this.state.height + 10}>Year</text>
 
                     <g className="axis" ref="yAxis" transform={this.translateAxis('y')}></g>
                     <text className="yAxis" textAnchor="left" x={(this.state.height / 2) * -1} y="0" transform= "rotate(-90)">Mean</text>

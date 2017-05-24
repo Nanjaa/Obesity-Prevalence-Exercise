@@ -99,13 +99,16 @@ class Chart extends React.Component {
         return (
             <div>
                 <h1>Chart Below:</h1>
-                <svg width={this.state.width} height={this.state.height}>
+                <svg width={this.state.width} height={this.state.height + 50}>
                     <g>
                         {this.state.data.map(this.renderCircles())}
                     </g>
 
                     <g className="axis" ref="xAxis" transform={this.translateAxis('x')}></g>
+                    <text className="xAxis" text-anchor="left" x={this.state.width / 2} y={this.state.height + 10}>Year</text>
+
                     <g className="axis" ref="yAxis" transform={this.translateAxis('y')}></g>
+                    <text className="yAxis" text-anchor="left" x={(this.state.height / 2) * -1} y="-10" transform= "rotate(-90)">Mean</text>
                     
                 </svg>
             </div>

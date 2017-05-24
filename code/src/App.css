@@ -26,6 +26,12 @@
   stroke-width: 5px;
 }
 
+svg {
+  display: block;
+  margin: auto;
+  padding-left: 35px;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

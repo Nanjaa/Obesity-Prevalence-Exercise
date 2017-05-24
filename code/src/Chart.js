@@ -8,7 +8,7 @@ class Chart extends React.Component {
 
         this.state = {
             width: 800,
-            height: 300,
+            height: 500,
             padding: 30,
             data: [[1,2],[3,4],[5,6],[7,8],[9,10]],
             xScale: undefined,
@@ -80,7 +80,7 @@ class Chart extends React.Component {
     }
 
     translateAxis(xy) {
-        if(xy == 'x') {
+        if(xy === 'x') {
             var translate = `translate(0, ${this.state.height - this.state.padding})`;
             return translate;
         }
@@ -105,10 +105,10 @@ class Chart extends React.Component {
                     </g>
 
                     <g className="axis" ref="xAxis" transform={this.translateAxis('x')}></g>
-                    <text className="xAxis" text-anchor="left" x={this.state.width / 2} y={this.state.height + 10}>Year</text>
+                    <text className="xAxis" textAnchor="left" x={this.state.width / 2} y={this.state.height + 10}>Year</text>
 
                     <g className="axis" ref="yAxis" transform={this.translateAxis('y')}></g>
-                    <text className="yAxis" text-anchor="left" x={(this.state.height / 2) * -1} y="-10" transform= "rotate(-90)">Mean</text>
+                    <text className="yAxis" textAnchor="left" x={(this.state.height / 2) * -1} y="0" transform= "rotate(-90)">Mean</text>
                     
                 </svg>
             </div>

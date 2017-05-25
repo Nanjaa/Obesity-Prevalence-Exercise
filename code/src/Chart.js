@@ -118,7 +118,7 @@ class Chart extends React.Component {
             }
 
             this.setState({
-                year: '1990'
+                year: this.state.value
             })
             this.renderAxis();
         }.bind(this))
@@ -138,8 +138,13 @@ class Chart extends React.Component {
 
     updateYear(event) {
         this.setState({
-            value: event.target.value
-        })
+            value: event.target.value,
+            year: 'Loading',
+            data: []
+        });
+
+
+        this.pullInfo();
     }
 
     componentDidMount() {
@@ -160,7 +165,7 @@ class Chart extends React.Component {
                 </select>
 
                 <svg width={this.state.width} height={this.state.height + 50}>
-                    <g>
+                    <g ref="circles">
                         {this.state.data.map(this.renderCircles())}
                     </g>
 

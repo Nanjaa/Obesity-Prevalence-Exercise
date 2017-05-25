@@ -1,6 +1,7 @@
 import React from 'react';
 import d3 from 'd3';
-import test from './data.CSV'
+import allData from './data.CSV';
+import cb from './codebook.CSV';
 
 class Chart extends React.Component {
 
@@ -12,7 +13,8 @@ class Chart extends React.Component {
             height: 500,
             padding: 30,
             data: [],
-            year: ''
+            year: 'Loading',
+            allYears: []
         };
     }
 
@@ -92,15 +94,14 @@ class Chart extends React.Component {
     }
 
     pullInfo() {
-        var d3 = require('d3'),
-            j = 0;
-        d3.csv(test, function(data) {
+        var d3 = require('d3');
+
+        d3.csv(allData, function(data) {
             for(var i=0; i<data.length; i++) {
                 if(data[i].year === '1990' && data[i].location === 'USA') {
-                    j = j+1;
                     var currState = this.state.data;
                     
-                    currState.push([j, data[i].mean*100]);
+                    currState.push([data[i].age_start, data[i].mean*100]);
                 }
             }
 
@@ -109,28 +110,49 @@ class Chart extends React.Component {
             })
             this.renderAxis();
         }.bind(this))
+    }
 
-        console.log(this.state.data);
+    getOptions() {
+        var d3 = require('d3');
+        d3.csv(cb, function(data) {
+            var allYears = data[3][ 'Value Coding' ];
+            allYears = allYears.split('; ');
+
+            this.setState({
+                allYears: allYears
+            });
+
+            console.log(this.state.allYears);
+
+        }.bind(this));
     }
 
     componentDidMount() {
         this.pullInfo();
+        this.getOptions();
     }
 
     render(props) {
         return (
             <div>
-                <h1>Prevalence as Percent in the USA by Year</h1>
+                <h1>Prevalence as Percent in the USA by Year and Age</h1>
                 <h2>-{this.state.year}-</h2>
+                <h3>Change year:</h3>
+                <select>
+                    {this.state.allYears.map(function(val) {
+                        return <option key={val} value={val}>{val}</option>
+                    })}
+                </select>
                 <svg width={this.state.width} height={this.state.height + 50}>
                     <g>
                         {this.state.data.map(this.renderCircles())}
                     </g>
 
                     <g className="axis" ref="xAxis" transform={this.translateAxis('x')}></g>
+                    <text className="xAxis" textAnchor="left" x={this.state.width / 2} y={this.state.height + 10}>Age Start</text>
 
                     <g className="axis" ref="yAxis" transform={this.translateAxis('y')}></g>
-                    <text className="yAxis" textAnchor="left" x={(this.state.height / 2) * -1} y="0" transform= "rotate(-90)">Mean</text>
+                    <text className="yAxis" textAnchor="left" x={(this.state.height / 2) * -1} y="0" transform= "rotate(-90)">Prevalence as Percent</text>
                     
                 </svg>
             </div>

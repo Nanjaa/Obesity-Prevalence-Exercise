@@ -32,6 +32,13 @@ svg {
   padding-left: 35px;
 }
 
+h3 {
+  margin-bottom: 15px;
+}
+select {
+  margin-bottom: 50px;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

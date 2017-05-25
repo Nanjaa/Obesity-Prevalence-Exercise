@@ -2,6 +2,7 @@ import React from 'react';
 import d3 from 'd3';
 import allData from './data.CSV';
 import cb from './codebook.CSV';
+import Tooltip from './Tooltip.js';
 
 class Chart extends React.Component {
 
@@ -15,7 +16,8 @@ class Chart extends React.Component {
             data: [],
             year: 'Loading',
             allYears: [],
-            value: '1990'
+            value: '1990',
+            tooltip: { display:false, value:''}
         };
 
         this.xMax=this.xMax.bind(this);
@@ -28,6 +30,8 @@ class Chart extends React.Component {
         this.pullInfo=this.pullInfo.bind(this);
         this.getOptions=this.getOptions.bind(this);
         this.updateYear=this.updateYear.bind(this);
+        this.showTooltip=this.showTooltip.bind(this);
+        this.hideTooltip=this.hideTooltip.bind(this);
     }
 
 
@@ -71,10 +75,11 @@ class Chart extends React.Component {
             const circleProps = {
                 cx: this.xScale(coords[0]),
                 cy: this.yScale(coords[1]),
-                r: 2,
+                r: 3,
                 key: index
             };
-            return <circle {...circleProps}/>;
+
+            return <circle onMouseOver={this.showTooltip} onMouseOut={this.hideTooltip} data-value={coords[0] + ', ' + coords[1].toFixed(2) +'%'} {...circleProps}/>;
         };
     };
 
@@ -147,6 +152,29 @@ class Chart extends React.Component {
         this.pullInfo();
     }
 
+    showTooltip(e){
+        e.target.setAttribute('fill', '#FFFFFF');
+     
+        this.setState({
+            tooltip:{
+                display:true,
+                value:e.target.getAttribute('data-value'),
+                pos:{
+                    x:e.target.getAttribute('cx'),
+                    y:e.target.getAttribute('cy')
+                }
+     
+            }
+        });
+    }
+
+    hideTooltip(e){
+        e.target.setAttribute('fill', '#7dc7f4');
+        this.setState({
+            tooltip:{ display:false, value:''}
+        });
+    }
+
     componentDidMount() {
         this.pullInfo();
         this.getOptions();
@@ -155,7 +183,7 @@ class Chart extends React.Component {
     render(props) {
         return (
             <div>
-                <h1>Prevalence as Percent in the USA by Year and Age</h1>
+                <h1>Obesity Prevalence as Percent in the USA by Year and Age</h1>
                 <h2>-{this.state.year}-</h2>
                 <h3>Change year:</h3>
                 <select value={this.state.value} onChange={this.updateYear}>
@@ -167,6 +195,7 @@ class Chart extends React.Component {
                 <svg width={this.state.width} height={this.state.height + 50}>
                     <g ref="circles">
                         {this.state.data.map(this.renderCircles())}
+                        <Tooltip tooltip={this.state.tooltip} />
                     </g>
 
                     <g className="axis" ref="xAxis" transform={this.translateAxis('x')}></g>

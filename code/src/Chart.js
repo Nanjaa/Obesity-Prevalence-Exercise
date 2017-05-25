@@ -14,8 +14,20 @@ class Chart extends React.Component {
             padding: 30,
             data: [],
             year: 'Loading',
-            allYears: []
+            allYears: [],
+            value: '1990'
         };
+
+        this.xMax=this.xMax.bind(this);
+        this.yMax=this.yMax.bind(this);
+        this.xScale=this.xScale.bind(this);
+        this.yScale=this.yScale.bind(this);
+        this.renderCircles=this.renderCircles.bind(this);
+        this.renderAxis=this.renderAxis.bind(this);
+        this.translateAxis=this.translateAxis.bind(this);
+        this.pullInfo=this.pullInfo.bind(this);
+        this.getOptions=this.getOptions.bind(this);
+        this.updateYear=this.updateYear.bind(this);
     }
 
 
@@ -98,7 +110,7 @@ class Chart extends React.Component {
 
         d3.csv(allData, function(data) {
             for(var i=0; i<data.length; i++) {
-                if(data[i].year === '1990' && data[i].location === 'USA') {
+                if(data[i].year === this.state.value && data[i].location === 'USA') {
                     var currState = this.state.data;
                     
                     currState.push([data[i].age_start, data[i].mean*100]);
@@ -121,10 +133,13 @@ class Chart extends React.Component {
             this.setState({
                 allYears: allYears
             });
-
-            console.log(this.state.allYears);
-
         }.bind(this));
+    }
+
+    updateYear(event) {
+        this.setState({
+            value: event.target.value
+        })
     }
 
     componentDidMount() {
@@ -138,11 +153,12 @@ class Chart extends React.Component {
                 <h1>Prevalence as Percent in the USA by Year and Age</h1>
                 <h2>-{this.state.year}-</h2>
                 <h3>Change year:</h3>
-                <select>
+                <select value={this.state.value} onChange={this.updateYear}>
                     {this.state.allYears.map(function(val) {
                         return <option key={val} value={val}>{val}</option>
                     })}
                 </select>
+
                 <svg width={this.state.width} height={this.state.height + 50}>
                     <g>
                         {this.state.data.map(this.renderCircles())}

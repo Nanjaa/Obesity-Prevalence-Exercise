@@ -3,6 +3,7 @@ import d3 from 'd3';
 import allData from './data.CSV';
 import cb from './codebook.CSV';
 import Tooltip from './Tooltip.js';
+import Axis from './Axis.js';
 
 class Chart extends React.Component {
 
@@ -25,8 +26,6 @@ class Chart extends React.Component {
         this.xScale=this.xScale.bind(this);
         this.yScale=this.yScale.bind(this);
         this.renderCircles=this.renderCircles.bind(this);
-        this.renderAxis=this.renderAxis.bind(this);
-        this.translateAxis=this.translateAxis.bind(this);
         this.pullInfo=this.pullInfo.bind(this);
         this.getOptions=this.getOptions.bind(this);
         this.updateYear=this.updateYear.bind(this);
@@ -83,33 +82,6 @@ class Chart extends React.Component {
         };
     };
 
-    renderAxis(orient, scale) {
-        var d3 = require('d3');
-
-        var xNode = this.refs.xAxis;
-        var xAxis = d3.axisBottom()
-                .scale(this.xScale(0, true));
-
-        var yNode = this.refs.yAxis;
-        var yAxis = d3.axisLeft()
-                .scale(this.yScale(0, true));
-
-        d3.select(xNode).call(xAxis);
-        d3.select(yNode).call(yAxis);
-    }
-
-    translateAxis(xy) {
-        if(xy === 'x') {
-            var translate = `translate(0, ${this.state.height - this.state.padding})`;
-            return translate;
-        }
-        else {
-            var translate = `translate(${this.state.padding}, 0)`;
-            return translate;
-        }
-        
-    }
-
     pullInfo() {
         var d3 = require('d3');
 
@@ -132,7 +104,6 @@ class Chart extends React.Component {
             this.setState({
                 year: this.state.value
             })
-            this.renderAxis();
         }.bind(this))
     }
 
@@ -203,11 +174,7 @@ class Chart extends React.Component {
                         <Tooltip tooltip={this.state.tooltip} />
                     </g>
 
-                    <g className="axis" ref="xAxis" transform={this.translateAxis('x')}></g>
-                    <text className="xAxis" textAnchor="left" x={this.state.width / 2} y={this.state.height + 10}>Age Start</text>
-
-                    <g className="axis" ref="yAxis" transform={this.translateAxis('y')}></g>
-                    <text className="yAxis" textAnchor="left" x={(this.state.height / 2) * -1} y="0" transform= "rotate(-90)">Prevalence as Percent</text>
+                    <Axis xScale={this.xScale(0,true)} yScale={this.yScale(0,true)} height={this.state.height} width={this.state.width} padding={this.state.padding} />
                     
                 </svg>
             </div>

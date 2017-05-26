@@ -24,8 +24,6 @@ class Axis extends React.Component {
 
         d3.select(xNode).call(xAxis);
         d3.select(yNode).call(yAxis);
-
-        console.log(yNode);
     }
 
     translateAxis(xy) {

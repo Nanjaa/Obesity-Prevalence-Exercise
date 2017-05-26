@@ -4,6 +4,7 @@ import allData from './data.CSV';
 import cb from './codebook.CSV';
 import Tooltip from './Tooltip.js';
 import Axis from './Axis.js';
+import Circles from './Circles.js';
 
 class Chart extends React.Component {
 
@@ -25,12 +26,9 @@ class Chart extends React.Component {
         this.yMax=this.yMax.bind(this);
         this.xScale=this.xScale.bind(this);
         this.yScale=this.yScale.bind(this);
-        this.renderCircles=this.renderCircles.bind(this);
         this.pullInfo=this.pullInfo.bind(this);
         this.getOptions=this.getOptions.bind(this);
         this.updateYear=this.updateYear.bind(this);
-        this.showTooltip=this.showTooltip.bind(this);
-        this.hideTooltip=this.hideTooltip.bind(this);
     }
 
 
@@ -67,20 +65,6 @@ class Chart extends React.Component {
             return yNum(num)
         }
     }
-
-
-    renderCircles() {
-        return (coords, index) => {
-            const circleProps = {
-                cx: this.xScale(coords[0]),
-                cy: this.yScale(coords[1]),
-                r: 3,
-                key: index
-            };
-
-            return <circle className={coords[2]} onMouseOver={this.showTooltip} onMouseOut={this.hideTooltip} data-value={coords[1].toFixed(2) +'%'} data-group={coords[3]} {...circleProps}/>;
-        };
-    };
 
     pullInfo() {
         var d3 = require('d3');
@@ -130,27 +114,6 @@ class Chart extends React.Component {
         this.pullInfo();
     }
 
-    showTooltip(e){
-        this.setState({
-            tooltip:{
-                display:true,
-                value:e.target.getAttribute('data-value'),
-                group: e.target.getAttribute('data-group'),
-                metric: e.target.getAttribute('class'),
-                pos:{
-                    x:e.target.getAttribute('cx'),
-                    y:e.target.getAttribute('cy')
-                }
-            }
-        });
-    }
-
-    hideTooltip(e){
-        this.setState({
-            tooltip:{ display:false, value:''}
-        });
-    }
-
     componentDidMount() {
         this.pullInfo();
         this.getOptions();
@@ -169,10 +132,7 @@ class Chart extends React.Component {
                 </select>
 
                 <svg width={this.state.width} height={this.state.height + 50}>
-                    <g ref="circles">
-                        {this.state.data.map(this.renderCircles())}
-                        <Tooltip tooltip={this.state.tooltip} />
-                    </g>
+                    <Circles xScale={this.xScale} yScale={this.yScale} data={this.state.data} />
 
                     <Axis xScale={this.xScale(0,true)} yScale={this.yScale(0,true)} height={this.state.height} width={this.state.width} padding={this.state.padding} />
                     

@@ -1,8 +1,7 @@
 import React from 'react';
-import d3 from 'd3';
+import * as d3 from 'd3';
 import allData from './data.CSV';
 import cb from './codebook.CSV';
-import Tooltip from './Tooltip.js';
 import Axis from './Axis.js';
 import Circles from './Circles.js';
 
@@ -33,16 +32,13 @@ class Chart extends React.Component {
 
 
     xMax(data) {
-        var d3 = require('d3');
         return d3.max(data, (d) => d[0]);
     }
     yMax(data) {
-        var d3 = require('d3');
         return d3.max(data, (d) => d[1]);
     }
 
     xScale(num, needFunc) {
-        var d3 = require('d3');
         var xNum = d3.scaleLinear()
                 .domain([0, this.xMax(this.state.data)])
                 .range([this.state.padding, this.state.width - this.state.padding * 2]);
@@ -54,7 +50,6 @@ class Chart extends React.Component {
         }
     }
     yScale(num, needFunc) {
-        var d3 = require('d3');
         var yNum = d3.scaleLinear()
                 .domain([0, this.yMax(this.state.data)])
                 .range([this.state.height - this.state.padding, this.state.padding]);
@@ -71,8 +66,6 @@ class Chart extends React.Component {
     }
 
     pullInfo() {
-        var d3 = require('d3');
-
         d3.csv(allData, function(data) {
             for(var i=0; i<data.length; i++) {
                 if(data[i].year === this.state.value && data[i].location === 'USA') {
@@ -99,7 +92,6 @@ class Chart extends React.Component {
     }
 
     getOptions() {
-        var d3 = require('d3');
         d3.csv(cb, function(data) {
             var allYears = data[3][ 'Value Coding' ];
             allYears = allYears.split('; ');

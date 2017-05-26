@@ -8,7 +8,6 @@ class Tooltip extends React.Component {
             y = 0,
             width = 200,
             height = 115,
-            transformText = 'translate(' + width/2 + ',' + (height/2-5) + ')',
             transformArrow = '';
 
         if(this.props.tooltip.display === true) {
@@ -37,8 +36,8 @@ class Tooltip extends React.Component {
                     <polygon is points="10,0  30,0  20,10" transform={transformArrow}
                              fill="#b1afaf" opacity=".9" visibility={visibility}/>
 
-                    <foreignObject width={width} height={height} text-anchor="middle">
-                        <div className="wrap" text-anchor="middle">
+                    <foreignObject width={width} height={height}>
+                        <div className="wrap">
                             <div>
                                 <p xmlns="http://www.w3.org/1999/xhtml">{this.props.tooltip.metric}</p>
                                 <p xmlns="http://www.w3.org/1999/xhtml">{this.props.tooltip.group}</p>

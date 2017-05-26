@@ -1,5 +1,5 @@
 import React from 'react';
-import d3 from 'd3';
+import * as d3 from 'd3';
 
 class Axis extends React.Component {
 
@@ -12,8 +12,6 @@ class Axis extends React.Component {
 
 
     renderAxis(orient, scale) {
-        var d3 = require('d3');
-
         var xNode = this.refs.xAxis;
         var xAxis = d3.axisBottom()
                 .scale(this.props.xScale);
@@ -27,12 +25,13 @@ class Axis extends React.Component {
     }
 
     translateAxis(xy) {
+        var translate;
         if(xy === 'x') {
-            var translate = `translate(0, ${this.props.height - this.props.padding})`;
+            translate = `translate(0, ${this.props.height - this.props.padding})`;
             return translate;
         }
         else {
-            var translate = `translate(${this.props.padding}, 0)`;
+            translate = `translate(${this.props.padding}, 0)`;
             return translate;
         }
         

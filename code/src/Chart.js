@@ -14,7 +14,7 @@ class Chart extends React.Component {
         this.state = {
             width: 800,
             height: 500,
-            padding: 30,
+            padding: 50,
             data: [],
             year: 'Loading',
             allYears: [],
@@ -66,20 +66,27 @@ class Chart extends React.Component {
         }
     }
 
+    capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     pullInfo() {
         var d3 = require('d3');
 
         d3.csv(allData, function(data) {
             for(var i=0; i<data.length; i++) {
                 if(data[i].year === this.state.value && data[i].location === 'USA') {
-                    var currState = this.state.data;
+                    var currState = this.state.data,
+                        metric = this.capitalize(data[i].metric),
+                        sex = this.capitalize(data[i].sex);
                     
                     currState.push(
                         [
                             data[i].age_start,
                             data[i].mean*100,
-                            data[i].metric,
-                            data[i].age_group
+                            metric,
+                            data[i].age_group,
+                            sex
                         ]
                     );
                 }
@@ -132,10 +139,11 @@ class Chart extends React.Component {
                 </select>
 
                 <svg width={this.state.width} height={this.state.height + 50}>
-                    <Circles xScale={this.xScale} yScale={this.yScale} data={this.state.data} />
 
                     <Axis xScale={this.xScale(0,true)} yScale={this.yScale(0,true)} height={this.state.height} width={this.state.width} padding={this.state.padding} />
-                    
+
+                    <Circles xScale={this.xScale} yScale={this.yScale} data={this.state.data} />
+
                 </svg>
             </div>
         );

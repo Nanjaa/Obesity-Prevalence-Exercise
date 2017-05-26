@@ -6,8 +6,8 @@ class Tooltip extends React.Component {
             transform = '',
             x = 0,
             y = 0,
-            width = 150,
-            height = 70,
+            width = 200,
+            height = 115,
             transformText = 'translate(' + width/2 + ',' + (height/2-5) + ')',
             transformArrow = '';
 
@@ -18,11 +18,11 @@ class Tooltip extends React.Component {
             y = position.y;
             visibility = 'visible';
 
-            if(y > height) {
+            if(y > height+30) {
                 transform = 'translate(' + (x-width/2) + ',' + (y-height-20) + ')';
                 transformArrow = 'translate(' + (width/2-20) + ',' + (height-2) + ')';
             }
-            else if(y < height) {
+            else if(y < height+30) {
                 transform = 'translate(' + (x-width/2) + ',' + (Math.round(y)+20) + ')';
                 transformArrow = 'translate(' + (width/2-20) + ',' + 0 + ') rotate(180,20,0)';
             }
@@ -33,17 +33,20 @@ class Tooltip extends React.Component {
 
             return(
                 <g transform={transform}>
-                    <rect class="shadow" is width={width} height={height} rx="5" ry="5" visibility={visibility} fill="#6391da" opacity=".9"/>
-                    <polygon class="shadow" is points="10,0  30,0  20,10" transform={transformArrow}
-                             fill="#6391da" opacity=".9" visibility={visibility}/>
-                    <text is visibility={visibility} transform={transformText}>
+                    <rect class="shadow" is width={width} height={height} rx="5" ry="5" visibility={visibility} fill="#b1afaf" opacity=".9"/>
+                    <polygon is points="10,0  30,0  20,10" transform={transformArrow}
+                             fill="#b1afaf" opacity=".9" visibility={visibility}/>
 
-                        <tspan is x="0" text-anchor="middle" font-size="15px" className={this.props.tooltip.metric}>{this.props.tooltip.metric}</tspan>
-
-                        <tspan is x="0" text-anchor="middle" dy="15" font-size="15px">{this.props.tooltip.group}</tspan>
-
-                        <tspan is x="0" text-anchor="middle" dy="20" font-size="15px" fill="#ffffff">{this.props.tooltip.value}</tspan>
-                    </text>
+                    <foreignObject width={width} height={height} text-anchor="middle">
+                        <div className="wrap" text-anchor="middle">
+                            <div>
+                                <p xmlns="http://www.w3.org/1999/xhtml">{this.props.tooltip.metric}</p>
+                                <p xmlns="http://www.w3.org/1999/xhtml">{this.props.tooltip.group}</p>
+                                <p xmlns="http://www.w3.org/1999/xhtml">{this.props.tooltip.sex}</p>
+                                <p xmlns="http://www.w3.org/1999/xhtml">{this.props.tooltip.value}</p>
+                            </div>
+                        </div>
+                    </foreignObject>
                 </g>
             )
         }

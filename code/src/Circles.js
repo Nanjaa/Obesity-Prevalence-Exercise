@@ -25,7 +25,7 @@ class Circles extends React.Component {
                 key: index
             };
 
-            return <circle className={coords[2]} onMouseOver={this.showTooltip} onMouseOut={this.hideTooltip} data-value={coords[1].toFixed(2) +'%'} data-group={coords[3]} {...circleProps}/>;
+            return <circle className={coords[2]} onMouseOver={this.showTooltip} onMouseOut={this.hideTooltip} data-value={coords[1].toFixed(2) +'%'} data-group={coords[3]} {...circleProps} data-sex={coords[4]} />;
         };
     };
 
@@ -37,6 +37,7 @@ class Circles extends React.Component {
                 value:e.target.getAttribute('data-value'),
                 group: e.target.getAttribute('data-group'),
                 metric: e.target.getAttribute('class'),
+                sex: e.target.getAttribute('data-sex'),
                 pos:{
                     x:e.target.getAttribute('cx'),
                     y:e.target.getAttribute('cy')

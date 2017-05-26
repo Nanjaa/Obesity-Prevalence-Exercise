@@ -26,11 +26,11 @@
   stroke-width: 5px;
 }
 
-.obese {
+.Obese {
   fill: red;
   color: red;
 }
-.overweight {
+.Overweight {
   fill: orange;
   color: orange;
 }
@@ -46,6 +46,11 @@ h3 {
 }
 select {
   margin-bottom: 50px;
+}
+
+foreignObject p {
+  margin: 5px 0;
+  padding: 0 5px;
 }
 
 @keyframes App-logo-spin {

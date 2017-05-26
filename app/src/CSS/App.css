@@ -56,4 +56,5 @@ svg {
 foreignObject p {
   margin: 5px 0;
   padding: 0 5px;
+  line-height: 1.1;
 }

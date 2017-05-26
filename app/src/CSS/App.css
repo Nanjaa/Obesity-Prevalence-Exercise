@@ -38,13 +38,13 @@ select {
 }
 
 .Obese {
-  fill: red;
-  color: red;
+  fill: #db1c1c;
+  color: #db1c1c;
 }
 
 .Overweight {
-  fill: orange;
-  color: orange;
+  fill: #416fbf;
+  color: #416fbf;
 }
 
 svg {

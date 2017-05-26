@@ -79,7 +79,7 @@ class Chart extends React.Component {
                 key: index
             };
 
-            return <circle onMouseOver={this.showTooltip} onMouseOut={this.hideTooltip} data-value={coords[0] + ', ' + coords[1].toFixed(2) +'%'} {...circleProps}/>;
+            return <circle className={coords[2]} onMouseOver={this.showTooltip} onMouseOut={this.hideTooltip} data-value={coords[1].toFixed(2) +'%'} data-group={coords[3]} {...circleProps}/>;
         };
     };
 
@@ -118,7 +118,14 @@ class Chart extends React.Component {
                 if(data[i].year === this.state.value && data[i].location === 'USA') {
                     var currState = this.state.data;
                     
-                    currState.push([data[i].age_start, data[i].mean*100]);
+                    currState.push(
+                        [
+                            data[i].age_start,
+                            data[i].mean*100,
+                            data[i].metric,
+                            data[i].age_group
+                        ]
+                    );
                 }
             }
 
@@ -153,23 +160,21 @@ class Chart extends React.Component {
     }
 
     showTooltip(e){
-        e.target.setAttribute('fill', '#FFFFFF');
-     
         this.setState({
             tooltip:{
                 display:true,
                 value:e.target.getAttribute('data-value'),
+                group: e.target.getAttribute('data-group'),
+                metric: e.target.getAttribute('class'),
                 pos:{
                     x:e.target.getAttribute('cx'),
                     y:e.target.getAttribute('cy')
                 }
-     
             }
         });
     }
 
     hideTooltip(e){
-        e.target.setAttribute('fill', '#7dc7f4');
         this.setState({
             tooltip:{ display:false, value:''}
         });
@@ -183,7 +188,7 @@ class Chart extends React.Component {
     render(props) {
         return (
             <div>
-                <h1>Obesity Prevalence as Percent in the USA by Year and Age</h1>
+                <h1>Obesity Prevalence as Percent in the USA by Year</h1>
                 <h2>-{this.state.year}-</h2>
                 <h3>Change year:</h3>
                 <select value={this.state.value} onChange={this.updateYear}>

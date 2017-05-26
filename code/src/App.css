@@ -26,6 +26,15 @@
   stroke-width: 5px;
 }
 
+.obese {
+  fill: red;
+  color: red;
+}
+.overweight {
+  fill: orange;
+  color: orange;
+}
+
 svg {
   display: block;
   margin: auto;

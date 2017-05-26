@@ -31,14 +31,18 @@ class Tooltip extends React.Component {
             }
 
 
-
             return(
                 <g transform={transform}>
                     <rect class="shadow" is width={width} height={height} rx="5" ry="5" visibility={visibility} fill="#6391da" opacity=".9"/>
                     <polygon class="shadow" is points="10,0  30,0  20,10" transform={transformArrow}
                              fill="#6391da" opacity=".9" visibility={visibility}/>
                     <text is visibility={visibility} transform={transformText}>
-                        <tspan is x="0" text-anchor="middle" dy="25" font-size="15px" fill="#ffffff">{this.props.tooltip.value}</tspan>
+
+                        <tspan is x="0" text-anchor="middle" font-size="15px" className={this.props.tooltip.metric}>{this.props.tooltip.metric}</tspan>
+
+                        <tspan is x="0" text-anchor="middle" dy="15" font-size="15px">{this.props.tooltip.group}</tspan>
+
+                        <tspan is x="0" text-anchor="middle" dy="20" font-size="15px" fill="#ffffff">{this.props.tooltip.value}</tspan>
                     </text>
                 </g>
             )
